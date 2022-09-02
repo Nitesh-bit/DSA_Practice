@@ -1,0 +1,29 @@
+void createMapping(int in[], map<int,int> &nodeToindex, int n){
+    for(int i=0; i<n; i++){
+        nodeToindex[in[i]]= i;
+    }
+}
+
+Node* solve(int int[], int post[], int &index, int inorderStart, int inorderEnd, int n, map<int,int> &nodeToindex){
+    if(index < 0 || inorderStart > inorderEnd){
+        return NULL;
+    }
+    
+
+    int element= post[index--];
+    Node* root= new Node(element);
+
+    int pos= nodeToindex[element];
+
+    root->right= solve(in, post, index, pos+1, inorderEnd, n, nodeToindex);
+    root->left= solve(in, post, index, inorderStart, pos-1, n, nodeToindex);
+
+    return root;
+}
+
+Node* buildTree(int in[], int post[], int n){
+    int index= n-1;
+    map<int,int> nodeToindex;
+    createMapping(in, nodeToindex, n);
+    return solve(in, post, index, 0, n-1, n, nodeToindex);
+}

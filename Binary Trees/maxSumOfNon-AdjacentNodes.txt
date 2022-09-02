@@ -1,0 +1,26 @@
+pair<int,int> solve(Node* root){
+    if(root == NULL){
+        return make_pair(0,0);
+    }
+
+    pair<int,int> leftAns= solve(root->left);
+    pair<int,int> rightAns= solve(root->right);
+
+    pair<int,int> res;
+
+// root element included and adjacent element will neglect and .second is the value of non-adjacent element
+
+    res.first= root->data + leftAns.second + right.second;
+
+// root element not included and adjacent element will include and max of .first and .second will get saved in res.second
+
+    res.second= max(leftAns.first, leftAns.second) + max(rightAns.first, rightAns.second);
+
+    return res;
+}
+
+int getMaxSum(Node* root){
+    pair<int,int> ans= solve(root);
+
+    return max(ans.first, ans.second);
+}

@@ -1,0 +1,43 @@
+
+//-------------------- O(n^2) using findPostion function so to overcome this time complexity we can use map
+//  int findPosition(int in[], int element, int n){
+//      for(int i=0; i<n; i++){
+//          if(in[i] == element){
+//              return i;
+//          }
+//      }
+//       return -1;
+//   }
+
+void createMapping(int in[], map<int,int> &nodeToindex, int n){
+    for(int i=0; i<n; i++){
+        nodeToindex[in[i]]= i;
+    }
+}
+
+Node* solve(int int[], int pre[], int &index, int inorderStart, int inorderEnd, int n, map<int,int> &nodeToindex){
+    if(index >= n || inorderStart > inorderEnd){
+        return NULL;
+    }
+    
+
+    int element= pre[index++];
+    Node* root= new Node(element);
+
+    int pos= nodeToindex[element];
+
+//      int pos= findPosition(in, element, n);
+    
+    root->left= solve(in, pre, index, inorderStart, pos-1, n, nodeToindex);
+    root->right= solve(in, pre, index, pos+1, inorderEnd, n, nodeToindex);
+
+    return root;
+}
+
+Node* buildTree(int in[], int pre[], int n){
+    int index=0;
+    map<int,int> nodeToindex;
+    createMapping(in, nodeToindex, n);
+//    return solve(in, pre, index, 0, n-1, n);
+    return solve(in, pre, index, 0, n-1, n, nodeToindex);
+}

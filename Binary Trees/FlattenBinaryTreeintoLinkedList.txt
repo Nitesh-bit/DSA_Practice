@@ -1,0 +1,20 @@
+void flattenBT(Node* root){
+    Node* current= root;
+    Node* pred= NULL;
+
+    while(current != NULL){
+
+        if(current->left){
+            pred= current->left;
+
+            while(pred->right){
+                pred= pred->right;
+            }
+            
+            pred->right= current->right;
+            current->right= current->left;
+            current->left= NULL;
+        }
+        current= current->right;
+    }
+}
